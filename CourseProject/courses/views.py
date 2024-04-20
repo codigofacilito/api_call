@@ -5,10 +5,20 @@ from .models import Course
 from .serializers import CourseSerializer
 from .serializers import CourseUpdateSerializer
 
+from threading import Thread
+
+def send_publish_message():
+    print('Publish message sent')
+
+
 class CourseListView(APIView):
     def get(self, reequest, *args, **kwargs):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True)
+
+        thread = Thread(target=send_publish_message)
+        thread.start()
+
         return Response(serializer.data)
     
 
@@ -24,4 +34,7 @@ class CourseUpdatePublishView(APIView):
             return Response(serializer.errors, status=400)
 
         serializer.save()
+        
+ 
+
         return Response(CourseSerializer(course).data)
