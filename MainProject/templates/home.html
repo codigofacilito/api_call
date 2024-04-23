@@ -10,7 +10,7 @@
    
     <!-- Hero Section -->
     <div class="bg-primary text-white text-center p-5 mb-4">
-      <h1 class="display-4 bold">Administrador CódigoFacilito</h1>
+      <h1 class="display-4 bold">Administrador CódigoFacilito!!!</h1>
     </div>
     <!-- Table Section -->
     <div class="container">
@@ -24,7 +24,19 @@
           </tr>
         </thead>
         <tbody>
-          
+          {% for course in courses %}
+            <tr>
+              <td>{{ course.title }}</td>
+              <td>{{ course.description }}</td>
+              <td>
+                {% if course.published_at %}
+                  {{ course.published_at }}
+                {% else %}
+                  <a href="#">Publicar</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
