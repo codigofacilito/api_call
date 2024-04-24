@@ -32,7 +32,7 @@
                 {% if course.published_at %}
                   {{ course.published_at }}
                 {% else %}
-                  <a href="#">Publicar</a>
+                  <a href="{% url 'update-course' pk=course.id %}">Publicar</a>
                 {% endif %}
               </td>
             </tr>

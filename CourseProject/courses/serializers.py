@@ -15,5 +15,5 @@ class CourseUpdateSerializer(serializers.ModelSerializer):
         fields = ['published_by']
 
     def update(self, instance, validated_data):
-        instance.published_at = timezone.now()
+        instance.published_at = timezone.datetime.now()
         return super().update(instance, validated_data)

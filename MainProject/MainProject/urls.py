@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from .views import home
+from .views import home, update_course
 
 urlpatterns = [
-    path('', home, name='home')
+    path('', home, name='home'),
+    path('courses/<int:pk>/update', update_course, name='update-course')
 ]

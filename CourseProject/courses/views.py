@@ -7,8 +7,9 @@ from .serializers import CourseUpdateSerializer
 
 from threading import Thread
 
-def send_publish_message():
-    print('Publish message sent')
+def send_notification_email():
+    from requests import get
+    get('http://localhost:8002/notifications')
 
 
 class CourseListView(APIView):
@@ -16,15 +17,13 @@ class CourseListView(APIView):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True)
 
-        thread = Thread(target=send_publish_message)
-        thread.start()
-
         return Response(serializer.data)
     
 
 class CourseUpdatePublishView(APIView):
     def put(self, request, pk, *args, **kwargs):
         course = Course.objects.get(pk=pk)
+        
         if not course:
             return Response({'error': 'Course not found'}, status=404)
         
@@ -33,8 +32,9 @@ class CourseUpdatePublishView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=400)
 
+        
         serializer.save()
         
- 
+        send_notification_email()
 
-        return Response(CourseSerializer(course).data)
+        return Response(CourseSerializer(course).data, status=200)
