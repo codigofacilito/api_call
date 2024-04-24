@@ -5,12 +5,6 @@ from .models import Course
 from .serializers import CourseSerializer
 from .serializers import CourseUpdateSerializer
 
-from threading import Thread
-
-def send_notification_email():
-    from requests import get
-    get('http://localhost:8002/notifications')
-
 
 class CourseListView(APIView):
     def get(self, reequest, *args, **kwargs):
@@ -34,7 +28,4 @@ class CourseUpdatePublishView(APIView):
 
         
         serializer.save()
-        
-        send_notification_email()
-
         return Response(CourseSerializer(course).data, status=200)
